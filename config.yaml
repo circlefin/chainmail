@@ -1,0 +1,64 @@
+# Copyright (c) 2024, Circle Internet Financial, LTD. All rights reserved.
+#
+#  SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+############################################################
+# Sender information - modify to connect to testnet/mainnet
+############################################################
+
+# Default sender information used in test_data/alice_private_key.asc.
+sender:
+  email: alice@testuser.com
+  fingerprint: 'A787FE6F9CC778EEEE9331752819F956FDE452F4'
+  # Passphrase for protecting PGP key (GnuPG requires a passphrase)
+  # The file bob_private_key.asc uses the same passphrase.
+  passphrase: 'test'
+
+# Location of key file with Ethereum private keys.
+# The test key file anvil_keys.yaml uses default anvil keys.
+local_key_file: './test_data/anvil_keys.yaml'
+
+
+##############################################
+# Test data that does not need to be modified
+##############################################
+
+chainmail:
+  hostname: 'http://localhost:5000'
+  test_pgp_email: 'alice@testuser.com'
+  test_pgp_fingerprint: 'A787FE6F9CC778EEEE9331752819F956FDE452F4'
+  test_pgp_private_key_passphrase: 'test'
+  test_pgp_private_key_file: 'test_data/alice_private_key.asc'
+  cc_sender: false
+
+pgp:
+  bin: '/usr/local/bin/gpg'
+  pgp_signature_start: '-----BEGIN PGP SIGNATURE-----'
+  new_pgp_signature_start: "-----BEGIN PGP SIGNATURE-----\nVersion: Mailvelope v5.1.0\nComment: https://mailvelope.com"
+  # fingerprint_note is appended to email message. The variable $FINGERPRINT will be replaced
+  # with the actual fingerprint of the key used to sign the message.
+  # The fingerprint_note MUST NOT begin with a ----- to avoid confusing the PGP signature verifier.
+  fingerprint_note: "\n\nCHAINMAIL FINGERPRINT\nPGP fingerprint: $FINGERPRINT\n\n"
+
+chainlink:
+  contract_file: './contracts/Chainmail.sol'
+  register_email_address: 'registerEmailAddress(bytes32,address,bytes calldata)'
+  register_email_message: 'registerEmailMessage(bytes32)'
+  email_address_info: 'emailAddressInfo(bytes32):(address,bytes memory)'
+  verify_email_message: 'verifyEmailMessage(bytes32,bytes32):(bool)'
+  # Update .gitignore if you change local_env_file so that it doesn't get checked into GitHub
+  local_env_file: './.chainmail_env'
+
