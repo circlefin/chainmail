@@ -7,6 +7,7 @@ This work is licensed under Apache 2.0.
 `SPDX-License-Identifier: Apache-2.0`
 
 ## Setup
+This project has been tested on Mac OS X.
 
 ### Install GnuPG
 Install GPG and GPA https://www.gnupg.org/. 
