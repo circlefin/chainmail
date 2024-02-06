@@ -2,15 +2,14 @@
 Protecting email recipients using the blockchain.
 
 ## License
-This work is licensed under Apache 2.0. 
+This work is licensed under Apache 2.0.
 
 `SPDX-License-Identifier: Apache-2.0`
 
 ## Setup
-This project has been tested on Mac OS X.
 
 ### Install GnuPG
-Install GPG and GPA https://www.gnupg.org/. 
+Install GPG and GPA https://www.gnupg.org/.
 
 For Mac:
 ```
@@ -71,14 +70,14 @@ Overview of all the steps, with more details provided above/below.
 To send emails:
 1. Open a fresh terminal window to run the web server. Activate the virtual environment and then run `python runwebsite.py`.
 1. Open your browser to `http://localhost:5000`
-1. There is a form at the bottom of the page for sending emails. Since this is a demo, no email will actually be sent. 
-Instead, the signed email text will appear in the side panel.
+1. There is a form at the bottom of the page for sending emails. Since this is a demo, no email will actually be sent.
+   Instead, the signed email text will appear in the side panel.
 
 To verify emails using an anvil node
 1. (Default) Set the configuration file `config.yaml` to point at `test_data/anvil_keys.yaml`.
 1. Open a fresh terminal window and run `anvil` without any arguments.
 1. Open a separate window and run the script `python register-for-demo.py`. This will deploy a fresh contract and register
-the email sender in the `config.yaml` file and the sender address in `test_data/anvil_keys.yaml`.
+   the email sender in the `config.yaml` file and the sender address in `test_data/anvil_keys.yaml`.
 1. Open a fresh terminal window to start the web server. Activate the virtual environment and then run `python runwebsite.py`.
 1. Open your browser to `http://localhost:5000`. You can now enter emails to verify.
 
@@ -87,8 +86,8 @@ To verify emails using the deployed testnet contract
 1. Open a fresh terminal window to start the web server. Activate the virtual environment and then run `python runwebsite.py`.
 1. Open your browser to `http://localhost:5000`. You can now enter emails to verify.
 
-### To run the webserver 
-If you are using anvil as your network, run `anvil` in a separate window. 
+### To run the webserver
+If you are using anvil as your network, run `anvil` in a separate window.
 
 Activate your virtual environment and run `python runwebsite.py`
 
@@ -124,15 +123,15 @@ local_key_file: './local_test_data/keys.yaml'
 
 You will need to do the following to your new key file:
 - (Optional) Obtain Ethereum accounts for contract owner and message sender. Set the owner and sender information
-  in the `keys.yaml` file using funded accounts. You can skip this step if you don't plan to deploy a contract or register 
-  email addresses. Email verificatin does not require funded accounts. 
+  in the `keys.yaml` file using funded accounts. You can skip this step if you don't plan to deploy a contract or register
+  email addresses. Email verificatin does not require funded accounts.
 - Obtain an Infura API key by registering here:  https://app.infura.io/register
-- Set your `rpc_url` in the `keys.yaml` file to point at the appropriate network and include an Infura API key. 
-The URL will look something like `rpc_url: 'https://goerli.infura.io/v3/<token>'
+- Set your `rpc_url` in the `keys.yaml` file to point at the appropriate network and include an Infura API key.
+  The URL will look something like `rpc_url: 'https://goerli.infura.io/v3/<token>'
   `
 - Set the contract address in the file `.chainmail_env`. We currently have a contract on the Goerli test network at
-`0x1866053Ec573dC3a50EB4A27f3836d867c622D41` that you can 
-view at https://goerli.etherscan.io/address/0x1866053ec573dc3a50eb4a27f3836d867c622d41
+  `0x1866053Ec573dC3a50EB4A27f3836d867c622D41` that you can
+  view at https://goerli.etherscan.io/address/0x1866053ec573dc3a50eb4a27f3836d867c622d41
 
 ```
 # .chainmail_env
@@ -158,9 +157,9 @@ There is a script `python register-for-demo.py` that will automatically deploy a
 The directory `test_data` has some test email messages. You can use them as test data on the command
 line with `python chainlink.py` or copy+paste into the web browser for verification.
 - `good_sent_email.asc`. This email is signed using the default PGP fingerprint and the script `register-for-demo.py` will
-register both the PGP fingerprint and the contents of the email.
+  register both the PGP fingerprint and the contents of the email.
 - `ok_sent_email.asc`. This email has a valid PGP signature and `register-for-demo.py` will register the signer PGP key.
-However, the text of the message is not registered.
+  However, the text of the message is not registered.
 - `unregistered_signed_email.asc`. This email has a valid PGP signature, however the PGP fingerprint is not registered.
 - `bad_sent_email.asc`. This email has an invalid PGP signature.
 

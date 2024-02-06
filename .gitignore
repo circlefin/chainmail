@@ -39,3 +39,4 @@ local_test_data/*
 lib/*
 .venv/*
 __pycache__/*
+.idea
