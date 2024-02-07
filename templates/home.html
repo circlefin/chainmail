@@ -1,0 +1,149 @@
+<!--
+ Copyright (c) 2024, Circle Internet Financial, LTD. All rights reserved.
+
+  SPDX-License-Identifier: Apache-2.0
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="flex-container">
+    <div class="flex-child">
+        <h2>Verify Email</h2>
+        <div class="input_form">
+            <form action="{{ url_for('verify')}}" method="post">
+                <div class="form-group">
+                    <label for="raw_text">Raw text of email</label>
+                    {% if verified == 'NONE' %}
+                    <textarea id="raw_text" name="raw_text" placeholder="Paste the raw text of your email here..."
+                        style="height:200px"></textarea>
+                    {% else %}
+                    <textarea id="raw_text" name="raw_text" style="height:200px">{{msg}}</textarea>
+                    {% endif %}
+                    <div class="btn-wrapper">
+                        <input type="submit" value="Verify">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="flex-child">
+        <h2>Results</h2>
+        {% if verified == 'NONE' %}
+
+        {% elif verified == 'OK' or verified == 'UNREGISTERED' %}
+        <table width="90%">
+            <tr>
+                {% if verified == 'OK' and registered_message %}
+                <td class="super">Verified</td>
+                <td class="super">TRUE</td>
+                {% elif verified == 'OK' %}
+                <td class="ok">Verified</td>
+                <td class="ok">TRUE</td>
+                {% else %}
+                <td class="unregistered">Verified</td>
+                <td class="unregistered">Valid signature from unregistered address</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>{{ username }}</td>
+            </tr>
+            <tr>
+                <td>Fingerprint</td>
+                <td>{{ fingerprint }}</td>
+            </tr>
+            <tr>
+                <td>Signature Creation Date</td>
+                <td>{{ creation_date }}</td>
+            </tr>
+            <tr>
+                <td>Signature Verification Details</td>
+                <td>{{ details }}</td>
+            </tr>
+        </table>
+        {% else %}
+        <table width="90%">
+            <tr>
+                <td class="invalid">Verified</td>
+                <td class="invalid">Signature verification failed.</td>
+            </tr>
+        {% for problem in problems %}
+            <tr>
+                <td>Issue</td>
+                <td>{{ problem }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</div>
+<div class="flex-container">
+    <div class="flex-child">
+        <h2>Send Email</h2>
+        <div class="form">
+            <form action="{{ url_for('send')}}" method="post">
+                <div class="form-group">
+                    <label for="email_to">To</label>
+                    <br>
+                    <input class="text" id="email_to" name="email_to" placeholder="recipient@example.com" size = "90%"></input>
+                    <br>
+                    <label for="subject">Subject</label>
+                    <br>
+                    <input class="text" id="subject" name="subject" placeholder="Email subject"  size = "90%"></input>
+                    <br>
+                    <label for="message">Message</label>
+                    <br>
+                    <textarea id="message" name="message" placeholder="Paste the raw text of your email here..."
+                        style="height:200px"></textarea>
+                    
+                        <div class="btn-wrapper">
+                        <input type="submit" value="Send">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="flex-child">
+        <h2>Email Sent</h2>
+        {% if email_sent == 'True' %}
+        <table width="90%">
+            <tr>
+                <td>To:</td>
+                <td>{{email_to}}</td>
+            </tr>
+            <tr>
+                <td>From</td>
+                <td>{{email_from}}</td>
+            </tr>
+            <tr>
+                <td>Fingerprint</td>
+                <td>{{ fingerprint }}</td>
+            </tr>
+            <tr>
+                <td>Subject</td>
+                <td>{{email_subject}}</td>
+            </tr>
+        </table>
+        Message
+        <p></p>
+        <textarea enabled=false rows="15" width="100%">{{email_body}}</textarea>
+         {% endif %}
+    </div>
+</div>
+{% endblock %}

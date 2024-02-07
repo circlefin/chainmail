@@ -1,0 +1,94 @@
+/*
+ Copyright (c) 2024, Circle Internet Financial, LTD. All rights reserved.
+
+  SPDX-License-Identifier: Apache-2.0
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+.flex-child h2{
+    font-size: 20px;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container h1{
+    font-size: 40px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+input[type=text], select, textarea {
+  width: 90%;
+  vertical-align: top;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  padding: 10px;
+}
+
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+  margin-right: 10%;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 1500px;
+}
+
+.flex-container {
+    display: flex;
+    width: 1500px;
+    background-color: #f2f2f2;
+    padding: 40px;
+}
+
+.flex-child {
+    flex: 1;
+    width: 700px;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+
+table {
+    table-layout: auto;
+    width: 100%;
+}
+
+.invalid {   background-color: salmon; }
+.super {   background-color: green; }
+.ok {   background-color: lightgreen; }
+.unregistered {   background-color: moccasin; }
