@@ -69,29 +69,29 @@ Overview of all the steps, with more details provided above/below.
 
 To send emails:
 1. Open a fresh terminal window to run the web server. Activate the virtual environment and then run `python runwebsite.py`.
-1. Open your browser to `http://localhost:5000`
+1. Open your browser to `http://127.0.0.1:5000`
 1. There is a form at the bottom of the page for sending emails. Since this is a demo, no email will actually be sent.
    Instead, the signed email text will appear in the side panel.
 
 To verify emails using an anvil node
-1. (Default) Set the configuration file `config.yaml` to point at `test_data/anvil_keys.yaml`.
-1. Open a fresh terminal window and run `anvil` without any arguments.
-1. Open a separate window and run the script `python register-for-demo.py`. This will deploy a fresh contract and register
+1. (Default) The configuration file `config.yaml` is set to use anvil by default. If you have modified the configuration
+ file, you need to set `local_key_file: './test_data/anvil_keys.yaml'`.
+1. Open a separate window, activate the virtual environment, and run the script `python register-for-demo.py`. This will deploy a fresh contract and register
    the email sender in the `config.yaml` file and the sender address in `test_data/anvil_keys.yaml`.
 1. Open a fresh terminal window to start the web server. Activate the virtual environment and then run `python runwebsite.py`.
-1. Open your browser to `http://localhost:5000`. You can now enter emails to verify.
+1. Open your browser to `http://127.0.0.1:5000`. You can now enter emails to verify.
 
 To verify emails using the deployed testnet contract
 1. Follow the instructions below to connect to Ethereum using an Infura RPC key.
 1. Open a fresh terminal window to start the web server. Activate the virtual environment and then run `python runwebsite.py`.
-1. Open your browser to `http://localhost:5000`. You can now enter emails to verify.
+1. Open your browser to `http://127.0.0.1:5000`. You can now enter emails to verify.
 
 ### To run the webserver
 If you are using anvil as your network, run `anvil` in a separate window.
 
 Activate your virtual environment and run `python runwebsite.py`
 
-Open a browser window to http://localhost:5000/
+Open a browser window to http://127.0.0.1:5000
 
 Enter the raw text of a message sent by Chainmail into the textarea and click on the `Verify` button.
 The send email form signs the email message and displays the result.
@@ -106,8 +106,9 @@ the correct `rpc_url` and an `owner` and `sender` anvil account. These are all d
 anvil.
 
 In a separate window, execute the command `anvil`. This will start a fresh instance of local anvil node.
-You will need to deploy a fresh copy of the `Chainmail.sol` contract each time you start `anvil`. The script
-`register-for-demo` does this automatically, or you can call `python chainlink.py`.
+You will need to deploy a fresh copy of the `Chainmail.sol` contract each time you start `anvil`. Start the
+virtual environment and run `python register-for-demo.py`. You can also deploy and interact with the
+contract on the commandline using `python chainlink.py`.
 
 ## Connect to Ethereum using Infura
 To connect to Ethereum, you need to create a `local_test_data/keys.yaml` file with
@@ -143,7 +144,7 @@ contract_address: '0x1866053Ec573dC3a50EB4A27f3836d867c622D41'
 The `chainlink.py` script interacts with an Ethereum network. Use the configuration file `config.yaml` to configure your
 connection to use anvil, testnet, or mainnet.
 
-Run `python chainlink.py` to get the exact usage instructions. You can
+Activate the virtual environment and run `python chainlink.py` to get the exact usage instructions. You can
 - Deploy an instance of the Chainmail contract.
 - Register an email address, fingerprint, and sender Ethereum address.
 - Register an email message.
@@ -155,7 +156,7 @@ There is a script `python register-for-demo.py` that will automatically deploy a
 
 ### Test Files
 The directory `test_data` has some test email messages. You can use them as test data on the command
-line with `python chainlink.py` or copy+paste into the web browser for verification.
+line with `python chainlink.py` or copy+paste into the web browser for verification (don't forget to activate your virtual environment).
 - `good_sent_email.asc`. This email is signed using the default PGP fingerprint and the script `register-for-demo.py` will
   register both the PGP fingerprint and the contents of the email.
 - `ok_sent_email.asc`. This email has a valid PGP signature and `register-for-demo.py` will register the signer PGP key.
@@ -164,7 +165,8 @@ line with `python chainlink.py` or copy+paste into the web browser for verificat
 - `bad_sent_email.asc`. This email has an invalid PGP signature.
 
 ### Generate mainnet/testnet address ###
-You need an Ethereum  address with ETH to register keys. The following command line command will generate an Ethereum account and private key
+You need an Ethereum  address with ETH to register keys. The following command line command will generate an Ethereum 
+account and private key. Activate your virtual environment and execute:
 ```
 python3 -c "from web3 import Web3; w3 = Web3(); acc = w3.eth.account.create(); print(f'private key={w3.to_hex(acc._private_key)}, account={acc.address}')"
 ```
