@@ -34,8 +34,9 @@ python3 -m venv ./.venv
 # start virtual environment
 source ./.venv/bin/activate
 
-# Install packages (this will take a few minutes)
-source setup
+# Install packages (this will take a few minutes).
+chmod u+x setup.sh
+./setup.sh
 ```
 
 To exit the virtual environment
