@@ -29,6 +29,7 @@ sender:
 
 # Location of key file with Ethereum private keys.
 # The test key file anvil_keys.yaml uses default anvil keys.
+# local_key_file: './local_test_data/sepolia_keys.yaml'
 local_key_file: './test_data/anvil_keys.yaml'
 
 
