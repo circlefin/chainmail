@@ -46,6 +46,7 @@ python chainlink.py verify-file <sender_email> <email_filename>
 """
 
 from chainmail import verify_signature
+import eth_abi
 import os
 from Crypto.Hash import keccak
 import re
@@ -66,6 +67,7 @@ owner_private_key = KEY['testnet_account']['private_key']
 sender_private_key = KEY['testnet_sender']['private_key']
 sender_address = KEY['testnet_sender']['address']
 rpc_url = KEY['rpc_url']
+etherscan_api_key = KEY['etherscan_api_key']
 
 ENV_CONFIG_FILE = CONFIG['chainlink']['local_env_file']
 
@@ -152,10 +154,11 @@ def is_cast_and_send_succeed(output):
     parsed = parse_cast_send_output(output)
     return parsed['success']
 
-# Returns a hash of the input using the Ethereum hash function keccak256
+# Returns a hash of the input string using the Ethereum hash function keccak256
 def hash(input):
+    input_bytes = eth_abi.encode(['string'], [input])
     keccak_hash = keccak.new(digest_bits=256)
-    keccak_hash.update(bytes(input, 'utf-8'))
+    keccak_hash.update(input_bytes)
     hash = keccak_hash.hexdigest()
     print(f'keccak-256: {hash}')
     return hash
@@ -177,7 +180,10 @@ def hash_email_address(email):
 # saved locally in a file for future use.
 def deploy():
     # deploy smart contract
-    command =  f'forge create {contract_file}:Chainmail --private-key {owner_private_key} --rpc-url {rpc_url}'
+    enable_verification = ''
+    if etherscan_api_key != '':
+        enable_verification = f' --etherscan-api-key {etherscan_api_key} --verify'
+    command =  f'forge create {contract_file}:Chainmail --private-key {owner_private_key} --rpc-url {rpc_url}{enable_verification}'
     output = execute_or_die(command)
 
     # Save address of smart contract in environment for future use. This is important for testing on local anvil

@@ -38,3 +38,6 @@ rpc_url: 'http://localhost:8545'
 
 # For Infura testnet RPC:
 # rpc_url: 'https://goerli.infura.io/v3/<token>'
+
+# For anvil use ''; for mainnet/testnet need to obtain an Etherscan token
+etherscan_api_key: ''
