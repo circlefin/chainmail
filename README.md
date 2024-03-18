@@ -35,8 +35,7 @@ python3 -m venv ./.venv
 source ./.venv/bin/activate
 
 # Install packages (this will take a few minutes).
-chmod u+x setup.sh
-./setup.sh
+pip install -r requirements.txt
 ```
 
 To exit the virtual environment
