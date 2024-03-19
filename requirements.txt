@@ -15,7 +15,7 @@ eth-keys==0.5.0
 eth-rlp==1.0.1
 eth-typing==4.0.0
 eth-utils==4.0.0
-eth_abi==5.0.1
+eth-abi==5.0.1
 Flask==3.0.2
 frozenlist==1.4.1
 google-api-core==2.17.1
@@ -52,7 +52,7 @@ rlp==4.0.0
 rpds-py==0.18.0
 rsa==4.9
 toolz==0.12.1
-typing_extensions==4.10.0
+typing-extensions==4.10.0
 uritemplate==4.1.1
 urllib3==2.2.1
 web3==6.15.1
