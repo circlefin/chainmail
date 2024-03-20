@@ -1,0 +1,21 @@
+# exempt MPL-2.0
+pkg:pypi/certifi
+
+# ISC (mislabeled as BSD-2-Clause AND ISC)
+pkg:pypi/requests-oauthlib
+
+# PYTHON SOFTWARE FOUNDATION LICENSE
+pkg:pypi/bitarray
+pkg:pypi/typing-extensions
+
+# BSD-2-Clause AND BSD-3-Clause
+pkg:pypi/click
+pkg:pypi/cytoolz
+pkg:pypi/idna
+pkg:pypi/itsdangerous
+pkg:pypi/oauthlib
+pkg:pypi/python-gnupg
+pkg:pypi/pkg:pypi/packaging
+pkg:pypi/pycryptodome
+pkg:pypi/toolz
+pkg:pypi/uritemplate
