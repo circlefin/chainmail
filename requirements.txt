@@ -59,3 +59,5 @@ web3==6.15.1
 websockets==12.0
 Werkzeug==3.0.1
 yarl==1.9.4
+pytest==8.0.2
+pytest-mock==3.12.0

@@ -40,3 +40,4 @@ lib/*
 .venv/*
 __pycache__/*
 .idea
+tests/__pycache__/
