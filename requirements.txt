@@ -46,7 +46,7 @@ pyunormalize==15.1.0
 PyYAML==6.0.1
 referencing==0.34.0
 regex==2023.12.25
-requests==2.31.0
+requests==2.32.0
 requests-oauthlib==1.4.0
 rlp==4.0.0
 rpds-py==0.18.0
