@@ -4,7 +4,7 @@ attrs==23.2.0
 bitarray==2.9.2
 blinker==1.7.0
 cachetools==5.3.3
-certifi==2024.2.2
+certifi==2024.7.4
 charset-normalizer==3.3.2
 click==8.1.7
 cytoolz==0.12.3
