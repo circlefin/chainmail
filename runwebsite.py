@@ -30,13 +30,15 @@ from chainlink import verify_fingerprint_and_email, verify_email_message
 from flask import Flask, request, render_template
 
 import gnupg
+import os
 import re
 import yaml
 
 app = Flask(__name__)
 
 CONFIG_FILE = 'config.yaml'
-CONFIG = yaml.safe_load(open(CONFIG_FILE, 'r'))
+with open(CONFIG_FILE, 'r', encoding='utf-8') as _config_handle:
+    CONFIG = yaml.safe_load(_config_handle)
 
 # Displays the homepage in home.html
 @app.route('/')
@@ -95,9 +97,13 @@ def check_message(message):
         check['creation_date'] = valid.creation_date
 
         # sender_email can be in format 'user@domain.com' or 'My Full Name <user@domain.com>'
-        found_email = re.findall('\<.+\>', valid.username.strip())
+        # Raw, non-greedy, anchored to the end of the string: the previous
+        # `'\<.+\>'` pattern was greedy and unanchored, so a username containing
+        # more than one angle-bracket pair yielded the widest possible span and
+        # the wrong address was then used for the on-chain registration lookup.
+        found_email = re.findall(r'<([^<>]+)>\s*$', valid.username.strip())
         if len(found_email) > 0:
-            sender_email = found_email[0][1:-1]
+            sender_email = found_email[0].strip()
         else:
             sender_email = valid.username.strip()
 
@@ -130,8 +136,8 @@ def check_message(message):
 # Checks a PGP signed email message stored in the file.
 # See function check_email_message() above
 def check_email_message_file(filename):
-    file = open(filename, 'r')
-    message = file.read()
+    with open(filename, 'r', encoding='utf-8') as file:
+        message = file.read()
     return check_message(message.strip())
 
 # Verifies the PGP signed email message. The input can come either from
@@ -169,6 +175,11 @@ def verify():
 
 # Run the Flask webserver
 if __name__ == '__main__':
-    app.run(debug=True)
+    # The Werkzeug debugger exposes an interactive Python console on any
+    # unhandled exception, which is remote code execution for anyone who can
+    # reach the port. It is now opt-in via CHAINMAIL_DEBUG=1 for local use only,
+    # instead of being on by default.
+    debug = os.getenv('CHAINMAIL_DEBUG') == '1'
+    app.run(debug=debug)
 
 

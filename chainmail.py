@@ -15,13 +15,15 @@
 # limitations under the License.
 
 import base64
+import binascii
 import gnupg
 import urllib
 import yaml
 import zlib
 
 CONFIG_FILE = 'config.yaml'
-CONFIG = yaml.safe_load(open(CONFIG_FILE, 'r'))
+with open(CONFIG_FILE, 'r', encoding='utf-8') as _config_handle:
+    CONFIG = yaml.safe_load(_config_handle)
 
 GPG = gnupg.GPG(CONFIG['pgp']['bin'])
 GPG.encoding = 'utf-8'
@@ -71,12 +73,34 @@ def get_verification_url(content):
     return url
 
 
+# Upper bound on the inflated size of a verification payload. The compressed
+# content arrives in a URL query parameter, i.e. from an untrusted caller, and a
+# few hundred bytes of zlib can expand to gigabytes ("decompression bomb"), which
+# is a single-request memory exhaustion of the web process.
+MAX_DECOMPRESSED_BYTES = 1 * 1024 * 1024
+
+# Bound on the base64 input itself, so an oversized request is rejected before
+# any decoding work happens.
+MAX_ENCODED_BYTES = 256 * 1024
+
+
 def get_content_string(base64_content):
+    if base64_content is None or len(base64_content) > MAX_ENCODED_BYTES:
+        return "FAILED TO PARSE CONTENT"
     try:
-        decoded = base64.b64decode(base64_content)
-        decompressed = zlib.decompress(decoded)
+        # `validate=True` rejects non-alphabet characters instead of silently
+        # discarding them.
+        decoded = base64.b64decode(base64_content, validate=True)
+        decompressor = zlib.decompressobj()
+        # Inflate at most MAX_DECOMPRESSED_BYTES + 1 so an overlong payload can be
+        # detected without ever materialising it in full.
+        decompressed = decompressor.decompress(decoded, MAX_DECOMPRESSED_BYTES + 1)
+        if len(decompressed) > MAX_DECOMPRESSED_BYTES:
+            return "FAILED TO PARSE CONTENT"
         content = decompressed.decode('utf-8')
-    except:
+    except (binascii.Error, ValueError, zlib.error, UnicodeDecodeError):
+        # Specific exceptions only: a bare `except` also swallowed
+        # KeyboardInterrupt, SystemExit, and genuine programming errors.
         return "FAILED TO PARSE CONTENT"
     else:
         return content
